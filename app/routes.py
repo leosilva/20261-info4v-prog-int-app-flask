@@ -29,8 +29,8 @@ def login():
     formulario = LoginForm()
     if formulario.validate_on_submit():
         if AuthenticationController.login(formulario):
-             flash("Login efetuado com sucesso!")
-             return redirect('/')
+            flash("Login efetuado com sucesso!")
+            return redirect('/')
         else:
             flash("Erro nas credenciais.")
             return redirect('/login')

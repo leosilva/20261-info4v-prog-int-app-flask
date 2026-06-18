@@ -7,6 +7,15 @@
     </head>
     <body>
         <header>Meu site</header>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
         {% block conteudo %}
         {% endblock %}
         <footer>Todos os direitos reservados</footer>
