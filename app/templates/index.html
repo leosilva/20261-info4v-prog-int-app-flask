@@ -3,6 +3,8 @@
 {% block titulo %}Página Inicial{% endblock %}
 
 {% block conteudo %}
+    <a href="{{ url_for('login') }}">Login</a>
+
     {% if usuario_logado %}
     <h1>
         Bem-vindo(a), {{ pessoa.nome }}
