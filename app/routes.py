@@ -2,6 +2,8 @@ from app import app
 from flask import render_template, redirect, flash
 from app.forms.login_form import LoginForm
 from app.controllers.AuthenticationControllers import AuthenticationController
+from app.models import Usuario
+from app import db
 
 
 @app.route("/")
@@ -35,3 +37,11 @@ def login():
             flash("Erro nas credenciais.")
             return redirect('/login')
     return render_template('login.html', title='Login', form=formulario)
+
+
+@app.route('/testeusuario')
+def teste_usuario():
+    usuario = Usuario(username='leosilva', email='leo@email.com')
+    db.session.add(usuario)
+    db.session.commit()
+    return "usuario inserido com sucesso"
