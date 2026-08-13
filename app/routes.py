@@ -1,7 +1,9 @@
 from app import app
-from flask import render_template, redirect, flash
+from flask import render_template, redirect, flash, request
 from app.forms.login_form import LoginForm
+from app.forms.cadastro_form import CadastroUsuarioForm
 from app.controllers.AuthenticationControllers import AuthenticationController
+from app.controllers.UsuarioController import UsuarioController
 from app.models import Usuario
 from app import db
 
@@ -39,9 +41,16 @@ def login():
     return render_template('login.html', title='Login', form=formulario)
 
 
-@app.route('/testeusuario')
-def teste_usuario():
-    usuario = Usuario(username='leosilva', email='leo@email.com')
-    db.session.add(usuario)
-    db.session.commit()
-    return "usuario inserido com sucesso"
+@app.route('/inserir', methods=['GET', 'POST'])
+def inserir():
+    formulario = CadastroUsuarioForm()
+    if formulario.validate_on_submit():
+        if UsuarioController.salvar(formulario):
+            flash("Usuário criado com sucesso!")
+            return redirect('/')
+        else:
+            return redirect('/inserir')
+    return render_template('cadastro_usuario.html', 
+                           title='Cadastro de Usuário', 
+                           form=formulario)
+    
