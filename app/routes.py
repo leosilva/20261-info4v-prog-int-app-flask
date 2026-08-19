@@ -47,6 +47,6 @@ def inserir():
     if formulario.validate_on_submit():
         if UsuarioController.salvar(formulario):
             print("Usuário criado com sucesso!")
-            return render_template("index2.html")
-    return render_template("index2.html")
+            return redirect("/")
+    return render_template("cadastro_usuario.html", form=formulario, title="Cadastro de Usuário")
     
