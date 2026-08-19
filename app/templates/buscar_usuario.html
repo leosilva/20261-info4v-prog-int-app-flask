@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+    <h1>Buscar Usuário</h1>
+    <form action="buscar" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.email.label }} <br/>
+            {{ form.email(size=32) }} <br/>
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}
