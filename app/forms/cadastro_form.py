@@ -7,7 +7,7 @@ class CadastroUsuarioForm(FlaskForm):
     email = EmailField('Email', validators=[DataRequired(message='Por favor, preencha o email'), 
                                              Email(message="Email inválido")])
     senha = PasswordField('Senha', validators=[DataRequired(message='Por favor, preencha a senha')])
-    submit = SubmitField('Entrar')
+    submit = SubmitField('Salvar')
     
     def validate_username(self, field):
         if field.data.lower() == 'admin':
