@@ -5,14 +5,16 @@ import sqlalchemy as sa
 
 class UsuarioController:
     def salvar(formulario):
-        usuario = Usuario()
-        usuario.username = formulario["usuario"].data
-        usuario.email = formulario["email"].data
-        usuario.password_hash = formulario["senha"].data
-        
-        db.session.add(usuario)
-        db.session.commit()
-        return True
+        try:
+            usuario = Usuario()
+            formulario.populate_obj(usuario)
+            db.session.add(usuario)
+            db.session.commit()
+            return True
+        except Exception as e:
+            print(f"Erro ao salvar usuário: {e}")
+            db.session.rollback()
+            return False
     
     def listar():
         query = sa.select(Usuario)

@@ -1,7 +1,7 @@
 from app import app
 from flask import render_template, redirect, flash, request
 from app.forms.login_form import LoginForm
-from app.forms.cadastro_form import CadastroUsuarioForm
+from app.forms.cadastro_usuario_form import UsuarioForm
 from app.forms.buscar_form import BuscarUsuarioForm
 from app.controllers.AuthenticationControllers import AuthenticationController
 from app.controllers.UsuarioController import UsuarioController
@@ -42,7 +42,7 @@ def login():
 
 @app.route('/inserir', methods=['GET', 'POST'])
 def inserir():
-    formulario = CadastroUsuarioForm()
+    formulario = UsuarioForm()
     if formulario.validate_on_submit():
         if UsuarioController.salvar(formulario):
             print("Usuário criado com sucesso!")
