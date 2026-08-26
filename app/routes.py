@@ -3,8 +3,8 @@ from flask import render_template, redirect, flash, request
 from app.forms.login_form import LoginForm
 from app.forms.cadastro_usuario_form import UsuarioForm
 from app.forms.buscar_form import BuscarUsuarioForm
-from app.controllers.AuthenticationControllers import AuthenticationController
-from app.controllers.UsuarioController import UsuarioController
+from app.services.AuthenticationService import AuthenticationService
+from app.services.UsuarioService import UsuarioService
 
 
 @app.route("/")
@@ -31,7 +31,7 @@ def index2():
 def login():
     formulario = LoginForm()
     if formulario.validate_on_submit():
-        if AuthenticationController.login(formulario):
+        if AuthenticationService.login(formulario):
             flash("Login efetuado com sucesso!")
             return redirect('/')
         else:
@@ -44,46 +44,46 @@ def login():
 def inserir():
     formulario = UsuarioForm()
     if formulario.validate_on_submit():
-        if UsuarioController.salvar(formulario):
+        if UsuarioService.salvar(formulario):
             print("Usuário criado com sucesso!")
             return redirect("/")
     return render_template("cadastro_usuario.html", form=formulario, title="Cadastro de Usuário")
     
 @app.route("/listar", methods=['GET'])
 def listar():
-    usuarios = UsuarioController.listar()
+    usuarios = UsuarioService.listar()
     for u in usuarios:
         print(u.id, u.username, u.email)
     return render_template("index.html")
 
 @app.route("/listar_com_filtro", methods=['GET'])
 def listar_com_filtro():
-    usuario = UsuarioController.listar_com_filtro()
+    usuario = UsuarioService.listar_com_filtro()
     print(usuario.id, usuario.username, usuario.email)
     return render_template("index.html")
 
 
 @app.route("/atualizar", methods=['GET'])
 def atualizar():
-    UsuarioController.atualizar()
+    UsuarioService.atualizar()
     return render_template("index.html")
 
 
 @app.route("/remover", methods=['GET'])
 def remover():
-    UsuarioController.remover()
+    UsuarioService.remover()
     return render_template("index.html")
 
 @app.route("/buscar", methods=['GET', 'POST'])
 def buscar():
     formulario = BuscarUsuarioForm()
     if formulario.validate_on_submit():
-        usuario = UsuarioController.buscar_por_email(formulario.email.data)
+        usuario = UsuarioService.buscar_por_email(formulario.email.data)
         print(usuario.id, usuario.username, usuario.email)
         usuario.email = "leo@email.com"
-        UsuarioController.atualizar(usuario)
+        UsuarioService.atualizar(usuario)
         
-        usuario = UsuarioController.buscar_por_id(usuario.id)
+        usuario = UsuarioService.buscar_por_id(usuario.id)
         print(usuario.id, usuario.username, usuario.email)
         
         return render_template("index.html")

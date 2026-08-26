@@ -1,4 +1,4 @@
-class AuthenticationController:
+class AuthenticationService:
     
     def login(form):
         print("O usuario {} fez o login, lembrar={}".format(

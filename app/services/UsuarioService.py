@@ -3,7 +3,7 @@ from app import db
 import sqlalchemy as sa
 
 
-class UsuarioController:
+class UsuarioService:
     def salvar(formulario):
         try:
             usuario = Usuario()
