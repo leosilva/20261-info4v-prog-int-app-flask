@@ -14,15 +14,14 @@ class TestMenuInserir(unittest.TestCase):
 
             # Página inicial e menu Inserir.
             pagina.goto("http://127.0.0.1:5000/")
-            pagina.locator("#menu-inserir").click()
+            pagina.locator("#menu-cadastrar").click()
             self.assertEqual(pagina.url, 
-                             "http://127.0.0.1:5000/inserir")
+                             "http://127.0.0.1:5000/cadastrar")
 
             # Preenchimento do formulário.
             usuario = f"teste-{randint(0,99999)}"
-            pagina.locator("#usuario").fill(usuario)
+            pagina.locator("#username").fill(usuario)
             pagina.locator("#email").fill(f"{usuario}@example.com")
-            pagina.locator("#senha").fill("senha-de-teste-123")
 
             # Salvar e verificar o redirecionamento para a página inicial.
             pagina.locator("#salvar").click()

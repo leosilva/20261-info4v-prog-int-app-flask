@@ -40,21 +40,23 @@ def login():
     return render_template('login.html', title='Login', form=formulario)
 
 
-@app.route('/inserir', methods=['GET', 'POST'])
-def inserir():
+@app.route('/cadastrar', methods=['GET', 'POST'])
+def cadastrar():
     formulario = UsuarioForm()
     if formulario.validate_on_submit():
-        if UsuarioService.salvar(formulario):
-            print("Usuário criado com sucesso!")
+        sucesso = UsuarioService.salvar(formulario)
+        if sucesso:
+            flash("Usuário cadastrado com sucesso!", category = "success")
             return redirect("/")
-    return render_template("cadastro_usuario.html", form=formulario, title="Cadastro de Usuário")
+        else:
+            flash("Erro ao cadastrar o novo usuário!", category = "error")
+            return render_template("cadastro.html", form=formulario)
+    return render_template("cadastro.html", form=formulario, title="Cadastro de Usuário")
     
 @app.route("/listar", methods=['GET'])
 def listar():
-    usuarios = UsuarioService.listar()
-    for u in usuarios:
-        print(u.id, u.username, u.email)
-    return render_template("index.html")
+    lista_usuarios = UsuarioService.listar()
+    return render_template("listar.html", usuarios = lista_usuarios)
 
 @app.route("/listar_com_filtro", methods=['GET'])
 def listar_com_filtro():
@@ -63,10 +65,20 @@ def listar_com_filtro():
     return render_template("index.html")
 
 
-@app.route("/atualizar", methods=['GET'])
-def atualizar():
-    UsuarioService.atualizar()
-    return render_template("index.html")
+@app.route("/editar/<int:id>", methods=['GET','POST'])
+def editar(id):
+    usuario = UsuarioService.buscar_por_id(id)
+    
+    formulario = UsuarioForm(obj=usuario)
+    if formulario.validate_on_submit():
+        sucesso = UsuarioService.atualizar(usuario, formulario)
+        if sucesso:
+            flash("Usuário atualizado com sucesso!", category = "success")
+            return redirect("/")
+        else:
+            flash("Erro ao atualizar o usuário!", category = "error")
+            return render_template("cadastro.html", form=formulario)
+    return render_template("cadastro.html", form=formulario, title="Cadastro de Usuário")
 
 
 @app.route("/remover", methods=['GET'])

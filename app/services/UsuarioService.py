@@ -24,12 +24,14 @@ class UsuarioService:
         query = sa.select(Usuario).where(Usuario.username == 'leosilva')
         return db.session.scalar(query)
     
-    def atualizar(usuario):
-        if usuario:
+    def atualizar(usuario, formulário):
+        try:
+            formulário.populate_obj(usuario)
             db.session.commit()
-            print("Usuário atualizado com sucesso!")
-        else:
-            print("Usuário não encontrado.")
+            return True
+        except Exception as e:
+            db.session.rollback()
+            return False
             
     def remover():
         usuario = db.session.get(Usuario, 7)

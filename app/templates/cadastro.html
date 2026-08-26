@@ -2,12 +2,12 @@
 
 {% block conteudo %}
     <h1 id="titulo-cadastro">Cadastro de Usuário</h1>
-    <form action="inserir" method="post" novalidate>
+    <form action="cadastrar" method="post" novalidate>
         {{ form.hidden_tag() }}
         <p>
-            {{ form.usuario.label }} <br/>
-            {{ form.usuario(size=32) }} <br/>
-            {% for error in form.usuario.errors %}
+            {{ form.username.label }} <br/>
+            {{ form.username(size=32) }} <br/>
+            {% for error in form.username.errors %}
                 <span style="color: red;">{{ error }}</span> <br/>
             {% endfor %}
         </p>
@@ -15,13 +15,6 @@
             {{ form.email.label }} <br/>
             {{ form.email(size=32) }} <br/>
             {% for error in form.email.errors %}
-                <span style="color: red;">{{ error }}</span> <br/>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.senha.label }} <br/>
-            {{ form.senha(size=32) }} <br/>
-            {% for error in form.senha.errors %}
                 <span style="color: red;">{{ error }}</span> <br/>
             {% endfor %}
         </p>
