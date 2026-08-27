@@ -4,7 +4,10 @@
     <h2>Lista de Usuários</h2>
     <ul>
         {% for usuario in usuarios %}
-            <li>{{ usuario.username }} - {{ usuario.email }}</li>
+            <li>
+                {{ usuario.username }} - {{ usuario.email }} - 
+                <a href="{{ url_for('editar', id=usuario.id) }}">Editar</a>
+            </li>
         {% else %}
             <li>Nenhum usuário cadastrado</li>
         {% endfor %}

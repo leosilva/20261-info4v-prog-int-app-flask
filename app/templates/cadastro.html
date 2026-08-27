@@ -1,8 +1,16 @@
 {% extends "base.html" %}
 
 {% block conteudo %}
-    <h1 id="titulo-cadastro">Cadastro de Usuário</h1>
-    <form action="cadastrar" method="post" novalidate>
+    {% if editar %}
+        <h1 id="titulo-cadastro">
+            Editar Usuário
+        </h1>
+    {% else %}
+        <h1 id="titulo-cadastro">
+            Cadastro de Usuário
+        </h1>
+    {% endif %}
+    <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
         <p>
             {{ form.username.label }} <br/>
