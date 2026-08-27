@@ -77,8 +77,11 @@ def editar(id):
             return redirect("/")
         else:
             flash("Erro ao atualizar o usuário!", category = "error")
-            return render_template("cadastro.html", form=formulario)
-    return render_template("cadastro.html", form=formulario, title="Cadastro de Usuário")
+            return render_template("cadastro.html", form=formulario, editar=True)
+    return render_template("cadastro.html", 
+                           form=formulario, 
+                           title="Cadastro de Usuário",
+                           editar=True)
 
 
 @app.route("/remover", methods=['GET'])

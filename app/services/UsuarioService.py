@@ -48,4 +48,4 @@ class UsuarioService:
     
     def buscar_por_id(id):
         query = sa.select(Usuario).where(Usuario.id == id)
-        return db.session.scalar(query)
+        return db.session.scalar(query).first()
