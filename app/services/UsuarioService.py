@@ -33,14 +33,14 @@ class UsuarioService:
             db.session.rollback()
             return False
             
-    def remover():
-        usuario = db.session.get(Usuario, 7)
+    def remover(usuario):
         if usuario:
             db.session.delete(usuario)
             db.session.commit()
-            print("Usuário removido com sucesso!")
+            return True
         else:
-            print("Usuário não encontrado.")
+            db.session.rollback()
+            return False
             
     def buscar_por_email(email):
         query = sa.select(Usuario).where(Usuario.email == email)

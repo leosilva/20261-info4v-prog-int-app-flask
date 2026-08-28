@@ -84,9 +84,17 @@ def editar(id):
                            editar=True)
 
 
-@app.route("/remover", methods=['GET'])
-def remover():
-    UsuarioService.remover()
+@app.route("/remover/<int:id>", methods=['GET'])
+def remover(id):
+    usuario = UsuarioService.buscar_por_id(id)
+    if usuario:
+        removeu = UsuarioService.remover(usuario)
+        if removeu:
+            flash("Usuário removido com sucesso!", category="success")
+        else:
+            flash("Erro ao remover usuário.", category="error")
+    else:
+        flash("Usuário não encontrado.", category="error")
     return render_template("index.html")
 
 @app.route("/buscar", methods=['GET', 'POST'])

@@ -6,7 +6,8 @@
         {% for usuario in usuarios %}
             <li>
                 {{ usuario.username }} - {{ usuario.email }} - 
-                <a href="{{ url_for('editar', id=usuario.id) }}">Editar</a>
+                <a href="{{ url_for('editar', id=usuario.id) }}">Editar</a> -
+                <a href="{{ url_for('remover', id=usuario.id) }}">Remover</a>
             </li>
         {% else %}
             <li>Nenhum usuário cadastrado</li>
