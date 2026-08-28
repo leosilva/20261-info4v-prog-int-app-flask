@@ -11,4 +11,3 @@ class Usuario(db.Model):
                         unique=True,
                         nullable=False)
     password_hash = db.Column(db.String(256))
-    posts = db.relationship('Post', backref='author')
