@@ -7,4 +7,4 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, 
                         db.ForeignKey('usuario.id'), 
                         nullable=False)
-    author = db.relationship('Usuario', backref='posts')
+    author = db.relationship('Usuario', back_populates='posts')
