@@ -1,11 +1,10 @@
 # Projeto Info4V
 
-Aplicação web desenvolvida em Python com Flask, SQLAlchemy e MySQL.
+Aplicação web desenvolvida em Python com Flask, SQLAlchemy, SQLite e MySQL.
 
 ## Pré-requisitos
 
 - Python 3.12 ou superior;
-- MySQL Server em execução;
 - Git (opcional, caso o projeto seja obtido de um repositório);
 - Chromium, instalado pelo Playwright para a execução dos testes de interface.
 
@@ -48,13 +47,19 @@ python -m playwright install chromium
 
 ### 4. Configure o banco de dados
 
-A aplicação utiliza um banco MySQL chamado `2026-info4v`, por padrão na porta `3306`. Crie o banco antes de executar as migrações:
+Por padrão, a aplicação utiliza SQLite no arquivo `instance/app.sqlite3`. Para criar ou atualizar as tabelas, execute:
+
+```bash
+flask --app run:app db upgrade
+```
+
+Para usar MySQL, defina `CURRENT_DATABASE=mysql` e crie o banco `2026-info4v`:
 
 ```sql
 CREATE DATABASE `2026-info4v` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
-Em seguida, crie ou atualize as tabelas com:
+Depois, execute as migrações:
 
 ```bash
 flask --app run:app db upgrade
@@ -68,9 +73,17 @@ Copie o arquivo `.env.example` para `.env` e substitua os valores de exemplo pel
 cp .env.example .env
 ```
 
-O arquivo `.env` não deve ser versionado, pois pode conter credenciais e chaves secretas. Configure as credenciais do MySQL e a chave da aplicação antes de executá-la. Exemplo no Linux/macOS:
+O arquivo `.env` não deve ser versionado, pois pode conter credenciais e chaves secretas. Para usar SQLite, mantenha:
 
 ```bash
+export CURRENT_DATABASE="sqlite"
+export SECRET_KEY="uma-chave-secreta-forte"
+```
+
+Para usar MySQL:
+
+```bash
+export CURRENT_DATABASE="mysql"
 export DB_USERNAME="root"
 export DB_PASSWORD="sua_senha_do_mysql"
 export DB_HOST="localhost"
@@ -79,9 +92,17 @@ export DB_NAME="2026-info4v"
 export SECRET_KEY="uma-chave-secreta-forte"
 ```
 
-No Windows (PowerShell):
+No Windows (PowerShell), para SQLite:
 
 ```powershell
+$env:CURRENT_DATABASE = "sqlite"
+$env:SECRET_KEY = "uma-chave-secreta-forte"
+```
+
+Para usar MySQL:
+
+```powershell
+$env:CURRENT_DATABASE = "mysql"
 $env:DB_USERNAME = "root"
 $env:DB_PASSWORD = "sua_senha_do_mysql"
 $env:DB_HOST = "localhost"
