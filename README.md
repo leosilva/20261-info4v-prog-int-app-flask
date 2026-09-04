@@ -1,11 +1,10 @@
 # Projeto Info4V
 
-Aplicação web desenvolvida em Python com Flask, SQLAlchemy e MySQL.
+Aplicação web desenvolvida em Python com Flask, SQLAlchemy e SQLite.
 
 ## Pré-requisitos
 
 - Python 3.12 ou superior;
-- MySQL Server em execução;
 - Git (opcional, caso o projeto seja obtido de um repositório);
 - Chromium, instalado pelo Playwright para a execução dos testes de interface.
 
@@ -48,13 +47,13 @@ python -m playwright install chromium
 
 ### 4. Configure o banco de dados
 
-A aplicação espera encontrar um banco MySQL chamado `2026-info4` na porta `3306`. Crie-o com um usuário que tenha permissão para acessá-lo:
+Por padrão, a aplicação utiliza SQLite no arquivo `instance/app.sqlite3`. O diretório e o banco são criados automaticamente. Para criar as tabelas, execute:
 
-```sql
-CREATE DATABASE `2026-info4` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```bash
+flask --app run:app db upgrade
 ```
 
-As tabelas são criadas automaticamente quando a aplicação é iniciada.
+A configuração de conexão com MySQL foi mantida. Para utilizá-la, defina `DATABASE_DRIVER=mysql` e configure o banco `2026-info4v` e as credenciais correspondentes.
 
 ### 5. Configure as variáveis de ambiente
 
@@ -64,19 +63,17 @@ Copie o arquivo `.env.example` para `.env` e substitua os valores de exemplo pel
 cp .env.example .env
 ```
 
-O arquivo `.env` não deve ser versionado, pois pode conter credenciais e chaves secretas. Defina as credenciais do MySQL e a chave da aplicação antes de executá-la. Exemplo no Linux/macOS:
+O arquivo `.env` não deve ser versionado, pois pode conter credenciais e chaves secretas. Para a configuração padrão, defina o driver SQLite e a chave da aplicação antes de executá-la. Exemplo no Linux/macOS:
 
 ```bash
-export DB_USERNAME="root"
-export DB_PASSWORD="sua_senha_do_mysql"
+export DATABASE_DRIVER="sqlite"
 export SECRET_KEY="uma-chave-secreta-forte"
 ```
 
 No Windows (PowerShell):
 
 ```powershell
-$env:DB_USERNAME = "root"
-$env:DB_PASSWORD = "sua_senha_do_mysql"
+$env:DATABASE_DRIVER = "sqlite"
 $env:SECRET_KEY = "uma-chave-secreta-forte"
 ```
 
@@ -128,6 +125,6 @@ tests/           # Testes automatizados
 
 ## Solução de problemas
 
-- **Erro de conexão com o MySQL:** confirme se o serviço está ativo, se o banco `2026-info4` foi criado e se `DB_USERNAME` e `DB_PASSWORD` estão corretos.
+- **Erro de conexão com o MySQL:** confirme se `DATABASE_DRIVER=mysql`, o serviço e o banco `2026-info4v` estão disponíveis, e se `DB_USERNAME` e `DB_PASSWORD` estão corretos.
 - **Erro ao instalar ou executar os testes:** execute novamente `python -m playwright install chromium` dentro do ambiente virtual.
 - **Porta 5000 ocupada:** encerre o processo que a utiliza antes de iniciar a aplicação.
