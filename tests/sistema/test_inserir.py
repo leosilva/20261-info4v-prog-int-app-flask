@@ -7,7 +7,7 @@ class TestMenuInserir(unittest.TestCase):
     def test_inserir_usuario(self):
         with sync_playwright() as playwright:
             navegador = playwright.chromium.launch(
-                headless=False, 
+                headless=True, 
                 slow_mo=1500)
             # Abre o navegador
             pagina = navegador.new_page()
