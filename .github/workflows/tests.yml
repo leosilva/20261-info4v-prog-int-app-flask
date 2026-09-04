@@ -8,9 +8,27 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: labinfo
+          MYSQL_DATABASE: 2026-info4v
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -plabinfo"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
     env:
       SECRET_KEY: chave-secreta-ci
-      DATABASE_DRIVER: sqlite
+      DB_USERNAME: root
+      DB_PASSWORD: labinfo
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_NAME: 2026-info4v
 
     steps:
       - name: Baixar código

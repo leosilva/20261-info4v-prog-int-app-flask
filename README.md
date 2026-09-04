@@ -1,10 +1,11 @@
 # Projeto Info4V
 
-Aplicação web desenvolvida em Python com Flask, SQLAlchemy e SQLite.
+Aplicação web desenvolvida em Python com Flask, SQLAlchemy e MySQL.
 
 ## Pré-requisitos
 
 - Python 3.12 ou superior;
+- MySQL Server em execução;
 - Git (opcional, caso o projeto seja obtido de um repositório);
 - Chromium, instalado pelo Playwright para a execução dos testes de interface.
 
@@ -47,13 +48,17 @@ python -m playwright install chromium
 
 ### 4. Configure o banco de dados
 
-Por padrão, a aplicação utiliza SQLite no arquivo `instance/app.sqlite3`. O diretório e o banco são criados automaticamente. Para criar as tabelas, execute:
+A aplicação utiliza um banco MySQL chamado `2026-info4v`, por padrão na porta `3306`. Crie o banco antes de executar as migrações:
+
+```sql
+CREATE DATABASE `2026-info4v` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+Em seguida, crie ou atualize as tabelas com:
 
 ```bash
 flask --app run:app db upgrade
 ```
-
-A configuração de conexão com MySQL foi mantida. Para utilizá-la, defina `DATABASE_DRIVER=mysql` e configure o banco `2026-info4v` e as credenciais correspondentes.
 
 ### 5. Configure as variáveis de ambiente
 
@@ -63,17 +68,25 @@ Copie o arquivo `.env.example` para `.env` e substitua os valores de exemplo pel
 cp .env.example .env
 ```
 
-O arquivo `.env` não deve ser versionado, pois pode conter credenciais e chaves secretas. Para a configuração padrão, defina o driver SQLite e a chave da aplicação antes de executá-la. Exemplo no Linux/macOS:
+O arquivo `.env` não deve ser versionado, pois pode conter credenciais e chaves secretas. Configure as credenciais do MySQL e a chave da aplicação antes de executá-la. Exemplo no Linux/macOS:
 
 ```bash
-export DATABASE_DRIVER="sqlite"
+export DB_USERNAME="root"
+export DB_PASSWORD="sua_senha_do_mysql"
+export DB_HOST="localhost"
+export DB_PORT="3306"
+export DB_NAME="2026-info4v"
 export SECRET_KEY="uma-chave-secreta-forte"
 ```
 
 No Windows (PowerShell):
 
 ```powershell
-$env:DATABASE_DRIVER = "sqlite"
+$env:DB_USERNAME = "root"
+$env:DB_PASSWORD = "sua_senha_do_mysql"
+$env:DB_HOST = "localhost"
+$env:DB_PORT = "3306"
+$env:DB_NAME = "2026-info4v"
 $env:SECRET_KEY = "uma-chave-secreta-forte"
 ```
 
@@ -105,7 +118,7 @@ Inicie a aplicação em um terminal e, em outro terminal com o ambiente virtual 
 python -m unittest discover -s tests
 ```
 
-Os testes usam um navegador Chromium em modo visível (`headless=False`). Portanto, mantenha o ambiente gráfico disponível durante a execução.
+Os testes usam um navegador Chromium em modo headless (`headless=True`).
 
 ## Estrutura principal
 
@@ -125,6 +138,6 @@ tests/           # Testes automatizados
 
 ## Solução de problemas
 
-- **Erro de conexão com o MySQL:** confirme se `DATABASE_DRIVER=mysql`, o serviço e o banco `2026-info4v` estão disponíveis, e se `DB_USERNAME` e `DB_PASSWORD` estão corretos.
+- **Erro de conexão com o MySQL:** confirme se o serviço e o banco `2026-info4v` estão disponíveis, e se `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USERNAME` e `DB_PASSWORD` estão corretos.
 - **Erro ao instalar ou executar os testes:** execute novamente `python -m playwright install chromium` dentro do ambiente virtual.
 - **Porta 5000 ocupada:** encerre o processo que a utiliza antes de iniciar a aplicação.
