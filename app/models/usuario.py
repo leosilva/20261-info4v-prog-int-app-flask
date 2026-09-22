@@ -10,6 +10,6 @@ class Usuario(db.Model):
                         index=True, 
                         unique=True,
                         nullable=False)
+    telefone = db.Column(db.String(20))
     password_hash = db.Column(db.String(256))
     posts = db.relationship('Post', back_populates='author')
-
