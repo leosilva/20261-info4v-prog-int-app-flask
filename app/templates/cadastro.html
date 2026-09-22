@@ -26,6 +26,20 @@
                 <span style="color: red;">{{ error }}</span> <br/>
             {% endfor %}
         </p>
+        <p>
+            {{ form.password.label }} <br/>
+            {{ form.password(placeholder="Mínimo de 6 caracteres", size=32, minlength=6) }} <br/>
+            {% for error in form.password.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.password2.label }} <br/>
+            {{ form.password2(placeholder="Confirme a senha", size=32, minlength=6) }} <br/>
+            {% for error in form.password2.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
         <p>{{ form.submit(id="salvar") }}</p>
         
     </form>

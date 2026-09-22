@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, redirect, flash, request
+from flask import render_template, redirect, flash, request, url_for
 from app.forms.login_form import LoginForm
 from app.forms.cadastro_usuario_form import UsuarioForm
 from app.forms.buscar_form import BuscarUsuarioForm
@@ -47,7 +47,7 @@ def cadastrar():
         sucesso = UsuarioService.salvar(formulario)
         if sucesso:
             flash("Usuário cadastrado com sucesso!", category = "success")
-            return redirect("/")
+            return redirect(url_for('login'))
         else:
             flash("Erro ao cadastrar o novo usuário!", category = "error")
             return render_template("cadastro.html", form=formulario)

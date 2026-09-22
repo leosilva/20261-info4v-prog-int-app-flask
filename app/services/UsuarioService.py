@@ -1,6 +1,7 @@
 from app.models import Usuario
 from app import db
 import sqlalchemy as sa
+from werkzeug.security import generate_password_hash
 
 
 class UsuarioService:
@@ -8,6 +9,7 @@ class UsuarioService:
         try:
             usuario = Usuario()
             formulario.populate_obj(usuario)
+            usuario.password_hash = generate_password_hash(formulario.password.data)
             db.session.add(usuario)
             db.session.commit()
             return True
@@ -49,3 +51,12 @@ class UsuarioService:
     def buscar_por_id(id):
         query = sa.select(Usuario).where(Usuario.id == id)
         return db.session.scalar(query)
+    
+    def checar_unicidade(campo, tipo):
+        if tipo == 'username':
+            if Usuario.query.filter_by(username=campo).first():
+                return False
+        if tipo == 'email':
+            if Usuario.query.filter_by(email=campo).first():
+                return False
+        return True
