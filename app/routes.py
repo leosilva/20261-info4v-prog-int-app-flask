@@ -9,18 +9,11 @@ from app.services.UsuarioService import UsuarioService
 
 @app.route("/")
 def home():
-    usuario = {
-        "nome": "Leo",
-        "produtos": ["Banana", "Abacaxi", "Melancia"]
-    }
-    esta_logado = True
-    return render_template("index.html", 
-                           pessoa = usuario, 
-                           usuario_logado = esta_logado)
+    return render_template("index.html")
 
 @app.route("/sobre")
 def sobre():
-    return "Página Sobre"
+    return render_template("sobre.html")
 
 @app.route("/index2")
 def index2():
@@ -32,11 +25,10 @@ def login():
     formulario = LoginForm()
     if formulario.validate_on_submit():
         if AuthenticationService.login(formulario):
-            flash("Login efetuado com sucesso!")
-            return redirect('/')
+            flash("Login efetuado com sucesso!", "success")
+            return redirect(url_for('home'))
         else:
-            flash("Erro nas credenciais.")
-            return redirect('/login')
+            flash("Usuário ou senha inválidos.", "error")
     return render_template('login.html', title='Login', form=formulario)
 
 

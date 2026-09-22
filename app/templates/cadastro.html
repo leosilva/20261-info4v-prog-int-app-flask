@@ -1,46 +1,52 @@
 {% extends "base.html" %}
 
-{% block conteudo %}
+{% block title %}{% if editar %}Editar Usuário{% else %}Cadastro de Usuário{% endif %}{% endblock %}
+
+{% block content %}
+    <section class="py-5">
+        <div class="container px-5 my-5 col-lg-6">
     {% if editar %}
-        <h1 id="titulo-cadastro">
+        <h1 id="titulo-cadastro" class="mb-4">
             Editar Usuário
         </h1>
     {% else %}
-        <h1 id="titulo-cadastro">
+        <h1 id="titulo-cadastro" class="mb-4">
             Cadastro de Usuário
         </h1>
     {% endif %}
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
-        <p>
-            {{ form.username.label }} <br/>
-            {{ form.username(size=32) }} <br/>
+        <div class="mb-3">
+            {{ form.username.label(class_="form-label") }}
+            {{ form.username(class_="form-control", size=32) }}
             {% for error in form.username.errors %}
-                <span style="color: red;">{{ error }}</span> <br/>
+                <span class="text-danger">{{ error }}</span>
             {% endfor %}
-        </p>
-        <p>
-            {{ form.email.label }} <br/>
-            {{ form.email(size=32) }} <br/>
+        </div>
+        <div class="mb-3">
+            {{ form.email.label(class_="form-label") }}
+            {{ form.email(class_="form-control", size=32) }}
             {% for error in form.email.errors %}
-                <span style="color: red;">{{ error }}</span> <br/>
+                <span class="text-danger">{{ error }}</span>
             {% endfor %}
-        </p>
-        <p>
-            {{ form.password.label }} <br/>
-            {{ form.password(placeholder="Mínimo de 6 caracteres", size=32, minlength=6) }} <br/>
+        </div>
+        <div class="mb-3">
+            {{ form.password.label(class_="form-label") }}
+            {{ form.password(class_="form-control", placeholder="Mínimo de 6 caracteres", size=32, minlength=6) }}
             {% for error in form.password.errors %}
-                <span style="color: red;">[{{ error }}]</span>
+                <span class="text-danger">[{{ error }}]</span>
             {% endfor %}
-        </p>
-        <p>
-            {{ form.password2.label }} <br/>
-            {{ form.password2(placeholder="Confirme a senha", size=32, minlength=6) }} <br/>
+        </div>
+        <div class="mb-3">
+            {{ form.password2.label(class_="form-label") }}
+            {{ form.password2(class_="form-control", placeholder="Confirme a senha", size=32, minlength=6) }}
             {% for error in form.password2.errors %}
-                <span style="color: red;">[{{ error }}]</span>
+                <span class="text-danger">[{{ error }}]</span>
             {% endfor %}
-        </p>
-        <p>{{ form.submit(id="salvar") }}</p>
+        </div>
+        {{ form.submit(id="salvar", class_="btn btn-primary") }}
         
     </form>
+        </div>
+    </section>
 {% endblock %}
