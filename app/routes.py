@@ -5,6 +5,7 @@ from app.forms.cadastro_usuario_form import UsuarioForm
 from app.forms.buscar_form import BuscarUsuarioForm
 from app.services.AuthenticationService import AuthenticationService
 from app.services.UsuarioService import UsuarioService
+from flask_login import login_required
 
 
 @app.route("/")
@@ -20,19 +21,33 @@ def index2():
     return render_template('index2.html')
 
 
+@app.route('/logout')
+def logout():
+    success = AuthenticationService.logout()
+    if not success:
+        flash('Erro ao realizar o logout', category='error')
+    return redirect(url_for('home'))
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     formulario = LoginForm()
     if formulario.validate_on_submit():
         if AuthenticationService.login(formulario):
             flash("Login efetuado com sucesso!", "success")
-            return redirect(url_for('home'))
+            print(request)
+            next_page = request.args.get('next')
+            print(next_page)
+            if not next_page:
+                next_page = url_for('home')
+            return redirect(next_page)
         else:
             flash("Usuário ou senha inválidos.", "error")
     return render_template('login.html', title='Login', form=formulario)
 
 
 @app.route('/cadastrar', methods=['GET', 'POST'])
+@login_required
 def cadastrar():
     formulario = UsuarioForm()
     if formulario.validate_on_submit():

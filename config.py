@@ -2,6 +2,7 @@ import secrets
 import os
 from urllib.parse import quote_plus
 from pathlib import Path
+from datetime import timedelta
 
 BASE_DIR = Path(__file__).resolve().parent
 SQLITE_DATABASE_PATH = BASE_DIR / "instance" / "app.sqlite3"
@@ -19,3 +20,9 @@ class Config:
         SQLALCHEMY_DATABASE_URI = f"sqlite:///{SQLITE_DATABASE_PATH}"
     elif CURRENT_DATABASE == "mysql":
         SQLALCHEMY_DATABASE_URI = f"mysql+mysqlconnector://{DB_USERNAME}:{quote_plus(DB_PASSWORD)}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SAMESITE = "Lax"
+    # Em produção com HTTPS:
+    # SESSION_COOKIE_SECURE=True
+    REMEMBER_COOKIE_DURATION=timedelta(days=1)

@@ -7,7 +7,11 @@
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Início</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ url_for('sobre') }}">Sobre</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
+                {% if current_user.is_anonymous%}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
+                {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
+                {% endif %}
                 <li class="nav-item"><a class="nav-link" href="{{ url_for('cadastrar') }}">Cadastro</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ url_for('listar') }}">Usuários</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ url_for('buscar') }}">Buscar</a></li>

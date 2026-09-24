@@ -1,5 +1,5 @@
 from app.models.usuario import Usuario
-from flask_login import login_user
+from flask_login import login_user, logout_user
 from werkzeug.security import check_password_hash
 
 
@@ -15,3 +15,6 @@ class AuthenticationService:
                 return True
         else:
             return False
+        
+    def logout():
+        return logout_user()

@@ -6,7 +6,7 @@
     <section class="py-5">
         <div class="container px-5 my-5 col-lg-6">
     <h1 class="mb-4">Login</h1>
-    <form action="{{ url_for('login') }}" method="post" novalidate>
+    <form action="{{ url_for('login', next=request.args.next) }}" method="post" novalidate>
         {{ form.hidden_tag() }}
         <div class="mb-3">
             {{ form.username.label(class_="form-label") }}
