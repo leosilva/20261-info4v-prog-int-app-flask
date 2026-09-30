@@ -15,8 +15,12 @@ db = SQLAlchemy(app)
 csrf = CSRFProtect(app)
 migrate = Migrate(app, db)
 
+from app.routes.autenticacao import autenticacao_bp
+
+app.register_blueprint(autenticacao_bp)
+
 login_manager = LoginManager(app)
-login_manager.login_view = 'login'
+login_manager.login_view = 'autenticacao.login'
 login_manager.login_message = None 
 
 from app import routes, models
