@@ -41,6 +41,18 @@ def listar():
     return render_template("listar.html", usuarios=lista_usuarios)
 
 
+@app.route("/area-plus")
+def area_plus():
+    flash("Área exclusiva para usuários PLUS.", category="success")
+    return redirect(url_for('home'))
+
+
+@app.route("/area-usuarios")
+def area_usuarios():
+    flash("Área exclusiva para usuários PADRAO e PLUS.", category="success")
+    return redirect(url_for('home'))
+
+
 @app.route("/listar_com_filtro", methods=['GET'])
 def listar_com_filtro():
     usuario = UsuarioService.listar_com_filtro()
@@ -78,7 +90,7 @@ def remover(id):
             flash("Erro ao remover usuário.", category="error")
     else:
         flash("Usuário não encontrado.", category="error")
-    return render_template("index.html")
+    return redirect(url_for('listar'))
 
 
 @app.route("/buscar", methods=['GET', 'POST'])

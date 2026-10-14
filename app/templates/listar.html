@@ -10,6 +10,7 @@
                         <tr>
                             <th>Usuário</th>
                             <th>E-mail</th>
+                            <th>Perfil</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -18,6 +19,7 @@
                         <tr>
                             <td>{{ usuario.username }}</td>
                             <td>{{ usuario.email }}</td>
+                            <td>{{ usuario.role }}</td>
                             <td>
                                 <a href="{{ url_for('editar', id=usuario.id) }}">Editar</a> -
                                 <a href="{{ url_for('remover', id=usuario.id) }}">Remover</a>
@@ -25,7 +27,7 @@
                         </tr>
                 {% else %}
                         <tr>
-                            <td colspan="3">Nenhum usuário cadastrado</td>
+                            <td colspan="4">Nenhum usuário cadastrado</td>
                         </tr>
                 {% endfor %}
                     </tbody>

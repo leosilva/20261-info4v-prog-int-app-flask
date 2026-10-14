@@ -11,9 +11,7 @@ def login():
     if formulario.validate_on_submit():
         if AuthenticationService.login(formulario):
             flash("Login efetuado com sucesso!", "success")
-            print(request)
             next_page = request.args.get('next')
-            print(next_page)
             if not next_page:
                 next_page = url_for('home')
             return redirect(next_page)

@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from pathlib import Path
 from flask_login import LoginManager
-
+from app.services.AuthorizationService import verificar_autorizacao
 
 app = Flask(__name__)
 Path(app.instance_path).mkdir(parents=True, exist_ok=True)
@@ -15,9 +15,13 @@ db = SQLAlchemy(app)
 csrf = CSRFProtect(app)
 migrate = Migrate(app, db)
 
+app.before_request(verificar_autorizacao)
+
 from app.routes.autenticacao import autenticacao_bp
+from app.routes.erros import erros_bp
 
 app.register_blueprint(autenticacao_bp)
+app.register_blueprint(erros_bp)
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'autenticacao.login'

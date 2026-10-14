@@ -31,6 +31,13 @@
             {% endfor %}
         </div>
         <div class="mb-3">
+            {{ form.role.label(class_="form-label") }}
+            {{ form.role(class_="form-select") }}
+            {% for error in form.role.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div class="mb-3">
             {{ form.password.label(class_="form-label") }}
             {{ form.password(class_="form-control", placeholder="Mínimo de 6 caracteres", size=32, minlength=6) }}
             {% for error in form.password.errors %}

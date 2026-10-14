@@ -157,6 +157,25 @@ requirements.txt # Dependências Python
 tests/           # Testes automatizados
 ```
 
+## Autorização por perfil
+
+Usuários possuem um dos perfis `PADRAO` ou `PLUS`, selecionado no cadastro. As
+permissões de cada rota ficam em um mapa simples:
+
+```python
+PERMISSOES_ROTAS = {
+    'listar': ['PADRAO', 'PLUS'],
+    'area_usuarios': ['PADRAO', 'PLUS'],
+    'area_plus': ['PLUS'],
+}
+```
+
+O perfil do usuário atualmente conectado pode ser reutilizado com
+`current_user.role`.
+
+Um usuário `PADRAO` recebe HTTP 403 nessa rota. A rota `/area-usuarios` mostra
+o caso em que os dois perfis são autorizados.
+
 ## Solução de problemas
 
 - **Erro de conexão com o MySQL:** confirme se o serviço e o banco `2026-info4v` estão disponíveis, e se `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USERNAME` e `DB_PASSWORD` estão corretos.
