@@ -18,4 +18,5 @@ class Usuario(db.Model, UserMixin):
                         nullable=False)
     password_hash = db.Column(db.String(256))
     role = db.Column(db.String(16), nullable=False, default=ROLES[0][0])
+    suap_id = db.Column(db.String(64), unique=True, nullable=True)
     posts = db.relationship('Post', back_populates='author')
