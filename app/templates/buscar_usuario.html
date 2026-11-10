@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
-{% block conteudo %}
+{% block title %}Buscar Usuário{% endblock %}
+
+{% block content %}
+    <section class="py-5">
+        <div class="container px-5 my-5">
     <h1>Buscar Usuário</h1>
     <form action="buscar" method="post" novalidate>
         {{ form.hidden_tag() }}
@@ -10,4 +14,6 @@
         </p>
         <p>{{ form.submit() }}</p>
     </form>
+        </div>
+    </section>
 {% endblock %}

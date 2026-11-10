@@ -2,6 +2,10 @@ import secrets
 import os
 from urllib.parse import quote_plus
 from pathlib import Path
+from datetime import timedelta
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent
 SQLITE_DATABASE_PATH = BASE_DIR / "instance" / "app.sqlite3"
@@ -13,6 +17,9 @@ class Config:
     DB_PORT = os.getenv("DB_PORT", "3306")
     DB_NAME = os.getenv("DB_NAME", "2026-info4v")
     SECRET_KEY = os.getenv("SECRET_KEY", secrets.token_hex(16))
+    SUAP_URL = os.getenv('SUAP_URL', 'https://suap.ifrn.edu.br')
+    SUAP_CLIENT_ID = os.getenv('SUAP_CLIENT_ID')
+    SUAP_CLIENT_SECRET = os.getenv('SUAP_CLIENT_SECRET')
     CURRENT_DATABASE = os.getenv("CURRENT_DATABASE", "sqlite").lower()
     
 
@@ -22,3 +29,9 @@ class Config:
         SQLALCHEMY_DATABASE_URI = f"mysql+mysqlconnector://{DB_USERNAME}:{quote_plus(DB_PASSWORD)}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     elif CURRENT_DATABASE == "postgresql":
         SQLALCHEMY_DATABASE_URI = f"postgresql://postgres:{quote_plus(DB_PASSWORD)}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SAMESITE = "Lax"
+    # Em produção com HTTPS:
+    # SESSION_COOKIE_SECURE=True
+    REMEMBER_COOKIE_DURATION=timedelta(days=1)

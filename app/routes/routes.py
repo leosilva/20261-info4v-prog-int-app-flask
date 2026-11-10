@@ -1,0 +1,107 @@
+from flask import render_template, redirect, flash, url_for
+from app import app
+from app.forms.cadastro_usuario_form import UsuarioForm
+from app.forms.buscar_form import BuscarUsuarioForm
+from app.services.UsuarioService import UsuarioService
+from flask_login import login_required
+
+
+@app.route("/")
+def home():
+    return render_template("index.html")
+
+
+@app.route("/sobre")
+def sobre():
+    return render_template("sobre.html")
+
+
+@app.route("/index2")
+def index2():
+    return render_template("index2.html")
+
+
+@app.route('/cadastrar', methods=['GET', 'POST'])
+@login_required
+def cadastrar():
+    formulario = UsuarioForm()
+    if formulario.validate_on_submit():
+        sucesso = UsuarioService.salvar(formulario)
+        if sucesso:
+            flash("Usuário cadastrado com sucesso!", category="success")
+            return redirect(url_for('autenticacao.login'))
+        flash("Erro ao cadastrar o novo usuário!", category="error")
+        return render_template("cadastro.html", form=formulario)
+    return render_template("cadastro.html", form=formulario, title="Cadastro de Usuário")
+
+
+@app.route("/listar", methods=['GET'])
+def listar():
+    lista_usuarios = UsuarioService.listar()
+    return render_template("listar.html", usuarios=lista_usuarios)
+
+
+@app.route("/area-plus")
+def area_plus():
+    flash("Área exclusiva para usuários PLUS.", category="success")
+    return redirect(url_for('home'))
+
+
+@app.route("/area-usuarios")
+def area_usuarios():
+    flash("Área exclusiva para usuários PADRAO e PLUS.", category="success")
+    return redirect(url_for('home'))
+
+
+@app.route("/listar_com_filtro", methods=['GET'])
+def listar_com_filtro():
+    usuario = UsuarioService.listar_com_filtro()
+    print(usuario.id, usuario.username, usuario.email)
+    return render_template("index.html")
+
+
+@app.route("/editar/<int:id>", methods=['GET', 'POST'])
+def editar(id):
+    usuario = UsuarioService.buscar_por_id(id)
+    formulario = UsuarioForm(obj=usuario)
+    if formulario.validate_on_submit():
+        sucesso = UsuarioService.atualizar(usuario, formulario)
+        if sucesso:
+            flash("Usuário atualizado com sucesso!", category="success")
+            return redirect("/")
+        flash("Erro ao atualizar o usuário!", category="error")
+        return render_template("cadastro.html", form=formulario, editar=True)
+    return render_template(
+        "cadastro.html",
+        form=formulario,
+        title="Cadastro de Usuário",
+        editar=True,
+    )
+
+
+@app.route("/remover/<int:id>", methods=['GET'])
+def remover(id):
+    usuario = UsuarioService.buscar_por_id(id)
+    if usuario:
+        removeu = UsuarioService.remover(usuario)
+        if removeu:
+            flash("Usuário removido com sucesso!", category="success")
+        else:
+            flash("Erro ao remover usuário.", category="error")
+    else:
+        flash("Usuário não encontrado.", category="error")
+    return redirect(url_for('listar'))
+
+
+@app.route("/buscar", methods=['GET', 'POST'])
+def buscar():
+    formulario = BuscarUsuarioForm()
+    if formulario.validate_on_submit():
+        usuario = UsuarioService.buscar_por_email(formulario.email.data)
+        print(usuario.id, usuario.username, usuario.email)
+        usuario.email = "leo@email.com"
+        UsuarioService.atualizar(usuario)
+        usuario = UsuarioService.buscar_por_id(usuario.id)
+        print(usuario.id, usuario.username, usuario.email)
+        return render_template("index.html")
+    return render_template("buscar_usuario.html", form=formulario)

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% set vinculo = dados.get('vinculo') or {} %}
+<div class="container px-5 my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0">Meu perfil SUAP</h1>
+        <a href="{{ url_for('home') }}" class="btn btn-secondary btn-sm">Voltar</a>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-body text-center">
+            {% if foto_url %}
+            <img src="{{ foto_url }}" alt="Foto de {{ dados.get('nome_usual', 'usuário') }}"
+                 class="rounded-circle mb-3" width="120" height="120" style="object-fit: cover;">
+            {% endif %}
+            <h2 class="h4">{{ dados.get('nome_usual') or dados.get('nome') or 'Usuário do SUAP' }}</h2>
+            <p class="text-muted">{{ dados.get('tipo_vinculo') or 'Usuário SUAP' }}</p>
+
+            <div class="row text-start mt-4">
+                <div class="col-md-6 mb-3"><strong>Matrícula</strong><br>{{ dados.get('matricula') or vinculo.get('matricula') or 'Não informado' }}</div>
+                <div class="col-md-6 mb-3"><strong>E-mail</strong><br>{{ dados.get('email') or 'Não informado' }}</div>
+                <div class="col-md-6 mb-3"><strong>Campus</strong><br>{{ dados.get('campus') or vinculo.get('campus') or 'Não informado' }}</div>
+                <div class="col-md-6 mb-3"><strong>Curso/Cargo</strong><br>{{ dados.get('curso') or dados.get('cargo') or vinculo.get('curso') or vinculo.get('cargo') or 'Não informado' }}</div>
+                <div class="col-md-6 mb-3"><strong>Situação</strong><br>{{ dados.get('situacao') or vinculo.get('situacao') or 'Não informado' }}</div>
+                <div class="col-md-6 mb-3"><strong>CPF</strong><br>{{ dados.get('cpf') or 'Não informado' }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
