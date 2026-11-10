@@ -7,4 +7,5 @@ email-validator==2.3.0
 python-dotenv==1.2.3
 postgres==4.0
 psycopg2-binary==2.9.13
+SQLAlchemy==2.0.52
 psycopg2-pool==1.2
