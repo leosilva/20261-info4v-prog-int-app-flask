@@ -28,7 +28,7 @@ class Config:
     elif CURRENT_DATABASE == "mysql":
         SQLALCHEMY_DATABASE_URI = f"mysql+mysqlconnector://{DB_USERNAME}:{quote_plus(DB_PASSWORD)}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     elif CURRENT_DATABASE == "postgresql":
-        SQLALCHEMY_DATABASE_URI = f"postgresql://postgres:{quote_plus(DB_PASSWORD)}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+        SQLALCHEMY_DATABASE_URI = f"postgresql://{DB_USERNAME}:{quote_plus(DB_PASSWORD)}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = "Lax"
