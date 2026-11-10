@@ -17,6 +17,9 @@ Mako==1.4.1
 MarkupSafe==3.0.3
 mysql-connector-python==26.7.0
 playwright==1.62.0
+postgres==4.0
+psycopg2-binary==2.9.13
+psycopg2-pool==1.2
 pyee==13.0.1
 python-dotenv==1.2.3
 SQLAlchemy==2.0.52
