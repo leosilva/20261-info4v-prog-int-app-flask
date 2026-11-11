@@ -22,6 +22,7 @@ class Config:
     SUAP_CLIENT_SECRET = os.getenv('SUAP_CLIENT_SECRET')
     CURRENT_DATABASE = os.getenv("CURRENT_DATABASE", "sqlite").lower()
     
+    
 
     if CURRENT_DATABASE == "sqlite":
         SQLALCHEMY_DATABASE_URI = f"sqlite:///{SQLITE_DATABASE_PATH}"
